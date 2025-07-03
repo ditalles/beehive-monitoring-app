@@ -113,9 +113,11 @@ const Login = ({ onLogin }) => {
 
     useEffect(() => {
         // Load saved credentials from localStorage on component mount
+        const savedUsername = localStorage.getItem('heilooHiveUsername');
         const savedChannelId = localStorage.getItem('heilooHiveChannelId');
         const savedReadApiKey = localStorage.getItem('heilooHiveReadApiKey');
-        if (savedChannelId && savedReadApiKey) {
+        if (savedUsername && savedChannelId && savedReadApiKey) {
+            setUsername(savedUsername);
             setChannelId(savedChannelId);
             setReadApiKey(savedReadApiKey);
             setRememberMe(true); // Set rememberMe to true if credentials are found
@@ -125,9 +127,11 @@ const Login = ({ onLogin }) => {
     const handleLogin = () => {
         if (username && channelId && readApiKey) {
             if (rememberMe) {
+                localStorage.setItem('heilooHiveUsername', username);
                 localStorage.setItem('heilooHiveChannelId', channelId);
                 localStorage.setItem('heilooHiveReadApiKey', readApiKey);
             } else {
+                localStorage.removeItem('heilooHiveUsername');
                 localStorage.removeItem('heilooHiveChannelId');
                 localStorage.removeItem('heilooHiveReadApiKey');
             }
@@ -438,8 +442,8 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
                 setIsLoading(false);
             }
         };
-        // Removed onCreateAlert from dependencies as it's called inside and its identity change is not a direct trigger for data fetch
-        // userSettings.alertThresholds is still a dependency because the alert checking logic directly depends on its values.
+        // Removed onCreateAlert from dependencies as its identity change does not directly necessitate re-fetching data.
+        // Its stability is ensured by useCallback in the parent App component.
         loadDataAndCheckAlerts();
     }, [hive.id, selectedPeriod, userThingSpeakChannelId, userThingSpeakReadApiKey, userSettings.alertThresholds, hive.name]);
 
