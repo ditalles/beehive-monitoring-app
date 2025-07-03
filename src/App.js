@@ -116,7 +116,7 @@ const Login = ({ onLogin }) => {
         const savedUsername = localStorage.getItem('heilooHiveUsername');
         const savedChannelId = localStorage.getItem('heilooHiveChannelId');
         const savedReadApiKey = localStorage.getItem('heilooHiveReadApiKey');
-        console.log("Loading from localStorage:", { savedUsername, savedChannelId, savedReadApiKey });
+        console.log("Login: Loading from localStorage:", { savedUsername, savedChannelId, savedReadApiKey });
 
         if (savedUsername && savedChannelId && savedReadApiKey) {
             setUsername(savedUsername);
@@ -132,12 +132,12 @@ const Login = ({ onLogin }) => {
                 localStorage.setItem('heilooHiveUsername', username);
                 localStorage.setItem('heilooHiveChannelId', channelId);
                 localStorage.setItem('heilooHiveReadApiKey', readApiKey);
-                console.log("Saving to localStorage:", { username, channelId, readApiKey });
+                console.log("Login: Saving to localStorage:", { username, channelId, readApiKey });
             } else {
                 localStorage.removeItem('heilooHiveUsername');
                 localStorage.removeItem('heilooHiveChannelId');
                 localStorage.removeItem('heilooHiveReadApiKey');
-                console.log("Clearing localStorage credentials.");
+                console.log("Login: Clearing localStorage credentials.");
             }
             onLogin(username, channelId, readApiKey);
         } else {
@@ -965,7 +965,7 @@ const App = () => {
             return;
         }
         const userSettingsRef = doc(firestore, `artifacts/${appId}/users/${currentUserId}/settings/userSettings`);
-        console.log("Attempting to fetch user settings from path:", userSettingsRef.path); // Log path
+        console.log("Firestore: Attempting to fetch user settings from path:", userSettingsRef.path);
         try {
             const docSnap = await getDoc(userSettingsRef);
             if (docSnap.exists()) {
@@ -978,45 +978,45 @@ const App = () => {
                         ...docSnap.data().alertThresholds
                     }
                 }));
-                console.log("User settings fetched successfully.");
+                console.log("Firestore: User settings fetched successfully.");
             } else {
                 // Set default settings if none exist
-                console.log("No user settings found, setting defaults.");
+                console.log("Firestore: No user settings found, setting defaults.");
                 await setDoc(userSettingsRef, userSettings);
-                console.log("Default user settings saved.");
+                console.log("Firestore: Default user settings saved.");
             }
         } catch (error) {
-            console.error("Error fetching or setting user settings:", error);
+            console.error("Firestore: Error fetching or setting user settings:", error);
         }
     }, [userSettings]); // userSettings is a dependency because it's used in the default settings save
 
     // Save user settings to Firestore
     const saveUserSettings = useCallback(async (newSettings) => {
         if (!db || !userId) {
-            console.error("saveUserSettings: Firestore DB or User ID not available. Cannot save.");
+            console.error("Firestore: saveUserSettings: DB or User ID not available. Cannot save.");
             return;
         }
         // Updated to use window.__app_id
         const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
         const userSettingsRef = doc(db, `artifacts/${appId}/users/${userId}/settings/userSettings`);
-        console.log("Attempting to save user settings to path:", userSettingsRef.path); // Log path
+        console.log("Firestore: Attempting to save user settings to path:", userSettingsRef.path);
         try {
             await setDoc(userSettingsRef, newSettings);
             setUserSettings(newSettings);
-            console.log("Settings saved successfully to Firestore.");
+            console.log("Firestore: Settings saved successfully to Firestore.");
         } catch (error) {
-            console.error("Error saving user settings:", error);
+            console.error("Firestore: Error saving user settings:", error);
         }
     }, [db, userId]); // Dependencies for useCallback
 
     // Fetch hives from Firestore
     const fetchHives = useCallback(async (firestore, currentUserId, appId) => {
         if (!firestore || !currentUserId || !appId) {
-            console.warn("fetchHives: Missing firestore, userId, or appId. Skipping fetch.");
+            console.warn("Firestore: fetchHives: Missing firestore, userId, or appId. Skipping fetch.");
             return;
         }
         const hivesCollectionRef = collection(firestore, `artifacts/${appId}/users/${currentUserId}/hives`);
-        console.log("Attempting to listen to hives from path:", hivesCollectionRef.path); // Log path
+        console.log("Firestore: Attempting to listen to hives from path:", hivesCollectionRef.path);
         try {
             onSnapshot(query(hivesCollectionRef, where('_deleted', '!=', true)), (snapshot) => { // Only fetch non-deleted hives
                 const fetchedHives = snapshot.docs.map(doc => ({
@@ -1024,59 +1024,59 @@ const App = () => {
                     ...doc.data(),
                 }));
                 setHives(fetchedHives);
-                console.log("Hives fetched successfully:", fetchedHives);
+                console.log("Firestore: Hives fetched successfully:", fetchedHives);
             }, (error) => {
-                console.error("Error fetching hives:", error);
+                console.error("Firestore: Error fetching hives:", error);
             });
         } catch (error) {
-            console.error("Error setting up hive listener:", error);
+            console.error("Firestore: Error setting up hive listener:", error);
         }
     }, []); // No external dependencies needed for this function itself
 
     // Add a new hive to Firestore
     const addHive = useCallback(async (hiveName) => {
         if (!db || !userId) {
-            console.error("addHive: Firestore DB or User ID not available. Cannot add hive.");
+            console.error("Firestore: addHive: DB or User ID not available. Cannot add hive.");
             return;
         }
         // Updated to use window.__app_id
         const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
         const hivesCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/hives`);
-        console.log("Attempting to add hive to path:", hivesCollectionRef.path); // Log path
+        console.log("Firestore: Attempting to add hive to path:", hivesCollectionRef.path);
         try {
             await addDoc(hivesCollectionRef, { name: hiveName, _deleted: false }); // Use addDoc for auto ID
-            console.log(`Hive "${hiveName}" added successfully.`);
+            console.log(`Firestore: Hive "${hiveName}" added successfully.`);
         } catch (error) {
-            console.error("Error adding hive:", error);
+            console.error("Firestore: Error adding hive:", error);
         }
     }, [db, userId]); // Dependencies for useCallback
 
     // Delete a hive from Firestore (soft delete)
     const deleteHive = useCallback(async (hiveId) => {
         if (!db || !userId) {
-            console.error("deleteHive: Firestore DB or User ID not available. Cannot delete hive.");
+            console.error("Firestore: deleteHive: DB or User ID not available. Cannot delete hive.");
             return;
         }
         // Updated to use window.__app_id
         const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
         const hiveDocRef = doc(db, `artifacts/${appId}/users/${userId}/hives`, hiveId);
-        console.log("Attempting to delete hive from path:", hiveDocRef.path); // Log path
+        console.log("Firestore: Attempting to delete hive from path:", hiveDocRef.path);
         try {
             await updateDoc(hiveDocRef, { _deleted: true });
-            console.log(`Hive ${hiveId} marked as deleted.`);
+            console.log(`Firestore: Hive ${hiveId} marked as deleted.`);
         } catch (error) {
-            console.error("Error deleting hive:", error);
+            console.error("Firestore: Error deleting hive:", error);
         }
     }, [db, userId]); // Dependencies for useCallback
 
     // Fetch alerts from Firestore
     const fetchAlerts = useCallback(async (firestore, currentUserId, appId) => {
         if (!firestore || !currentUserId || !appId) {
-            console.warn("fetchAlerts: Missing firestore, userId, or appId. Skipping fetch.");
+            console.warn("Firestore: fetchAlerts: Missing firestore, userId, or appId. Skipping fetch.");
             return;
         }
         const alertsCollectionRef = collection(firestore, `artifacts/${appId}/users/${currentUserId}/alerts`);
-        console.log("Attempting to listen to alerts from path:", alertsCollectionRef.path); // Log path
+        console.log("Firestore: Attempting to listen to alerts from path:", alertsCollectionRef.path);
         try {
             onSnapshot(alertsCollectionRef, (snapshot) => {
                 const fetchedAlerts = snapshot.docs.map(doc => ({
@@ -1085,19 +1085,19 @@ const App = () => {
                     timestamp: doc.data().timestamp?.toDate().toLocaleString() // Convert Firestore Timestamp to readable string
                 }));
                 setAlerts(fetchedAlerts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))); // Sort by newest first
-                console.log("Alerts fetched successfully:", fetchedAlerts.length);
+                console.log("Firestore: Alerts fetched successfully:", fetchedAlerts.length);
             }, (error) => {
-                console.error("Error fetching alerts:", error);
+                console.error("Firestore: Error fetching alerts:", error);
             });
         } catch (error) {
-            console.error("Error setting up alerts listener:", error);
+            console.error("Firestore: Error setting up alerts listener:", error);
         }
     }, []); // No external dependencies needed for this function itself
 
     // Create a new alert in Firestore
     const createAlert = useCallback(async (hiveId, hiveName, sensor, type, threshold, actual) => {
         if (!db || !userId) {
-            console.error("createAlert: Firestore DB or User ID not available. Cannot create alert.");
+            console.error("Firestore: createAlert: DB or User ID not available. Cannot create alert.");
             return;
         }
 
@@ -1114,14 +1114,14 @@ const App = () => {
         );
 
         if (existingUnreadAlert) {
-            console.log("Skipping duplicate unread alert:", { hiveId, sensor, type, threshold });
+            console.log("Firestore: Skipping duplicate unread alert:", { hiveId, sensor, type, threshold });
             return;
         }
 
         // Updated to use window.__app_id
         const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
         const alertsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/alerts`);
-        console.log("Attempting to create alert at path:", alertsCollectionRef.path); // Log path
+        console.log("Firestore: Attempting to create alert at path:", alertsCollectionRef.path);
         try {
             await addDoc(alertsCollectionRef, {
                 hiveId,
@@ -1133,27 +1133,27 @@ const App = () => {
                 timestamp: serverTimestamp(),
                 isRead: false,
             });
-            console.log("Alert created successfully:", { hiveId, sensor, type, threshold, actual });
+            console.log("Firestore: Alert created successfully:", { hiveId, sensor, type, threshold, actual });
         } catch (error) {
-            console.error("Error creating alert:", error);
+            console.error("Firestore: Error creating alert:", error);
         }
     }, [db, userId, alerts, userSettings.alertThresholds.swarmDetection]); // Depend on alerts and swarm settings
 
     // Mark an alert as read
     const markAlertRead = useCallback(async (alertId) => {
         if (!db || !userId) {
-            console.error("markAlertRead: Firestore DB or User ID not available. Cannot mark alert as read.");
+            console.error("Firestore: markAlertRead: DB or User ID not available. Cannot mark alert as read.");
             return;
         }
         // Updated to use window.__app_id
         const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
         const alertDocRef = doc(db, `artifacts/${appId}/users/${userId}/alerts`, alertId);
-        console.log("Attempting to mark alert as read at path:", alertDocRef.path); // Log path
+        console.log("Firestore: Attempting to mark alert as read at path:", alertDocRef.path);
         try {
             await updateDoc(alertDocRef, { isRead: true });
-            console.log(`Alert ${alertId} marked as read.`);
+            console.log(`Firestore: Alert ${alertId} marked as read.`);
         } catch (error) {
-            console.error("Error marking alert as read:", error);
+            console.error("Firestore: Error marking alert as read:", error);
         }
     }, [db, userId]); // Dependencies for useCallback
 
@@ -1161,19 +1161,8 @@ const App = () => {
     // Initialize Firebase and authenticate
     useEffect(() => {
         const initializeFirebaseAndAuth = async () => {
+            console.log("Firebase Init: Starting initialization...");
             try {
-                // --- IMPORTANT FOR LOCAL DEVELOPMENT ---
-                // If you are running this app locally (outside of the Canvas environment),
-                // the __firebase_config, __app_id, and __initial_auth_token variables
-                // will be undefined. You need to provide your Firebase project's config
-                // here for local testing.
-                //
-                // 1. Go to your Firebase project in the Firebase console.
-                // 2. Click "Project settings" (gear icon) -> "General".
-                // 3. Scroll down to "Your apps" and select "Web".
-                // 4. Copy the `firebaseConfig` object.
-                // 5. Paste it below, replacing the empty object.
-                // ---------------------------------------
                 const localFirebaseConfig = {
                     apiKey: "AIzaSyD7e9S9k3e-2ltNfA0a1CwskUXeZ23KenU",
                     authDomain: "test-54377.firebaseapp.com",
@@ -1184,56 +1173,74 @@ const App = () => {
                     measurementId: "G-KWG80FR0TQ"
                 };
 
-                // Updated to use window. prefix for global variables to satisfy ESLint
                 const firebaseConfig = typeof window.__firebase_config !== 'undefined' ? JSON.parse(window.__firebase_config) : localFirebaseConfig;
                 const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
                 const initialAuthToken = typeof window.__initial_auth_token !== 'undefined' ? window.__initial_auth_token : null;
 
-                console.log("Firebase Config (used):", firebaseConfig); // For debugging
-                console.log("App ID (used):", appId); // For debugging
+                console.log("Firebase Init: Using Firebase Config:", firebaseConfig);
+                console.log("Firebase Init: Using App ID:", appId);
 
                 const app = initializeApp(firebaseConfig);
+                console.log("Firebase Init: App initialized.");
                 const firestore = getFirestore(app);
+                console.log("Firebase Init: Firestore initialized.");
                 const firebaseAuth = getAuth(app);
+                console.log("Firebase Init: Auth initialized.");
 
                 setDb(firestore);
                 setAuth(firebaseAuth);
 
                 const unsubscribe = onAuthStateChanged(firebaseAuth, async (currentUser) => {
+                    console.log("Firebase Auth: onAuthStateChanged triggered.");
                     if (currentUser) {
                         setUserId(currentUser.uid);
-                        console.log("Authenticated User ID:", currentUser.uid); // Log user ID
+                        console.log("Firebase Auth: User authenticated. UID:", currentUser.uid);
                         // Fetch user data after successful authentication
                         await fetchUserSettings(firestore, currentUser.uid, appId);
                         await fetchHives(firestore, currentUser.uid, appId);
                         await fetchAlerts(firestore, currentUser.uid, appId);
+                        console.log("Firebase Auth: User data, hives, and alerts fetched.");
                     } else {
-                        // Sign in anonymously if no user is logged in
+                        console.log("Firebase Auth: No user authenticated, attempting sign-in.");
                         try {
                             if (initialAuthToken) {
+                                console.log("Firebase Auth: Attempting signInWithCustomToken...");
                                 await signInWithCustomToken(firebaseAuth, initialAuthToken);
                             } else {
+                                console.log("Firebase Auth: Attempting signInAnonymously...");
                                 await signInAnonymously(firebaseAuth);
                             }
+                            console.log("Firebase Auth: Sign-in attempt completed.");
                             // After anonymous sign-in, onAuthStateChanged will fire again with a new user
                         } catch (error) {
-                            console.error("Firebase anonymous sign-in failed:", error);
-                            // Even if anonymous sign-in fails, allow the app to load
+                            console.error("Firebase Auth: Anonymous sign-in failed:", error);
+                            // Important: Set isAuthReady to true even if sign-in fails
+                            // so the app doesn't hang on loading.
+                            setIsAuthReady(true);
                         }
                     }
-                    setIsAuthReady(true); // Set auth ready after initial check/attempt
+                    // Set auth ready after initial check/attempt, regardless of success or failure
+                    // unless an explicit error occurred during sign-in that already set it.
+                    if (!isAuthReady) { // Only set if not already set by an error in the catch block
+                        setIsAuthReady(true);
+                        console.log("Firebase Auth: isAuthReady set to true.");
+                    }
                 });
 
-                return () => unsubscribe(); // Cleanup auth listener
+                return () => {
+                    console.log("Firebase Init: Cleaning up auth listener.");
+                    unsubscribe(); // Cleanup auth listener
+                };
             } catch (error) {
-                console.error("Firebase initialization failed:", error);
+                console.error("Firebase Init: Critical Firebase initialization failed:", error);
                 // Ensure isAuthReady is set to true even if initialization fails
                 setIsAuthReady(true);
+                console.log("Firebase Init: isAuthReady set to true due to initialization error.");
             }
         };
 
         initializeFirebaseAndAuth();
-    }, [fetchUserSettings, fetchHives, fetchAlerts]); // Added dependencies
+    }, [fetchUserSettings, fetchHives, fetchAlerts, isAuthReady]); // Added isAuthReady to dependencies to prevent infinite loop
 
 
     const handleLogin = (username, channelId, readApiKey) => {
@@ -1252,7 +1259,7 @@ const App = () => {
         setUserThingSpeakChannelId(null);
         setUserThingSpeakReadApiKey(null);
         if (auth) {
-            auth.signOut().catch(e => console.error("Error signing out:", e));
+            auth.signOut().catch(e => console.error("Firebase Auth: Error signing out:", e));
         }
     };
 
