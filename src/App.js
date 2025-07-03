@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
+import React, { useState, useEffect, createContext, useContext, useCallback, useMemo } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, collection, query, onSnapshot, updateDoc, addDoc, serverTimestamp, where } from 'firebase/firestore';
@@ -116,6 +116,8 @@ const Login = ({ onLogin }) => {
         const savedUsername = localStorage.getItem('heilooHiveUsername');
         const savedChannelId = localStorage.getItem('heilooHiveChannelId');
         const savedReadApiKey = localStorage.getItem('heilooHiveReadApiKey');
+        console.log("Loading from localStorage:", { savedUsername, savedChannelId, savedReadApiKey });
+
         if (savedUsername && savedChannelId && savedReadApiKey) {
             setUsername(savedUsername);
             setChannelId(savedChannelId);
@@ -130,10 +132,12 @@ const Login = ({ onLogin }) => {
                 localStorage.setItem('heilooHiveUsername', username);
                 localStorage.setItem('heilooHiveChannelId', channelId);
                 localStorage.setItem('heilooHiveReadApiKey', readApiKey);
+                console.log("Saving to localStorage:", { username, channelId, readApiKey });
             } else {
                 localStorage.removeItem('heilooHiveUsername');
                 localStorage.removeItem('heilooHiveChannelId');
                 localStorage.removeItem('heilooHiveReadApiKey');
+                console.log("Clearing localStorage credentials.");
             }
             onLogin(username, channelId, readApiKey);
         } else {
@@ -219,7 +223,7 @@ const Login = ({ onLogin }) => {
 };
 
 // Dashboard Component
-const Dashboard = ({ user, hives, onSelectHive, onLogout, alerts, onMarkAlertRead, onShowAlertsModal }) => {
+const Dashboard = ({ user, hives, onSelectHive, onLogout, alerts, onMarkAlertRead, onShowAlertsModal, appVersion }) => {
     const { userId, userThingSpeakChannelId, userThingSpeakReadApiKey } = useContext(FirebaseContext);
     const [latestHiveData, setLatestHiveData] = useState({});
     const [isLoadingLatestData, setIsLoadingLatestData] = useState(true);
@@ -337,6 +341,9 @@ const Dashboard = ({ user, hives, onSelectHive, onLogout, alerts, onMarkAlertRea
                     )}
                 </div>
             )}
+            <div className="text-center text-gray-500 text-xs mt-6">
+                App Version: {appVersion}
+            </div>
             <button
                 onClick={() => onSelectHive({ id: 'settings', name: 'Settings' })}
                 className="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 text-lg"
@@ -358,13 +365,18 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
 
     const { userThingSpeakChannelId, userThingSpeakReadApiKey } = useContext(FirebaseContext);
 
+    // Memoize the fetch function to prevent unnecessary re-creation
+    const memoizedFetchThingSpeakData = useCallback(async (channelId, readApiKey, numResults) => {
+        return fetchThingSpeakData(channelId, readApiKey, numResults);
+    }, []);
+
     // Fetch data and check for alerts
     useEffect(() => {
         const loadDataAndCheckAlerts = async () => {
             setIsLoading(true);
             try {
-                // For swarm detection, fetch enough data to cover the longest possible time window (e.g., 48 hours for a 24-hour check)
-                const data = await fetchThingSpeakData(userThingSpeakChannelId, userThingSpeakReadApiKey, 2000); // Fetch more data points for historical analysis
+                // Fetch more data points for historical analysis (e.g., 2000 for swarm detection)
+                const data = await memoizedFetchThingSpeakData(userThingSpeakChannelId, userThingSpeakReadApiKey, 2000);
                 setHiveData(data);
 
                 if (data.length === 0) {
@@ -442,10 +454,8 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
                 setIsLoading(false);
             }
         };
-        // Removed onCreateAlert from dependencies as its identity change does not directly necessitate re-fetching data.
-        // Its stability is ensured by useCallback in the parent App component.
         loadDataAndCheckAlerts();
-    }, [hive.id, selectedPeriod, userThingSpeakChannelId, userThingSpeakReadApiKey, userSettings.alertThresholds, hive.name]);
+    }, [hive.id, selectedPeriod, userThingSpeakChannelId, userThingSpeakReadApiKey, userSettings.alertThresholds, hive.name, memoizedFetchThingSpeakData, onCreateAlert]); // Added memoizedFetchThingSpeakData and onCreateAlert to dependencies
 
     const getNumResults = (period) => {
         switch (period) {
@@ -458,7 +468,8 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
         }
     };
 
-    const filteredData = hiveData.filter(item => {
+    // Memoize filteredData to prevent unnecessary re-calculations and reference changes
+    const filteredData = useMemo(() => {
         const periodMs = {
             'today': 24 * 60 * 60 * 1000,
             '3days': 3 * 24 * 60 * 60 * 1000,
@@ -467,11 +478,11 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
             'custom': Infinity // For 'custom', show all fetched data
         }[selectedPeriod];
 
-        if (selectedPeriod === 'custom') return true; // Already filtered by numResults in fetch
+        if (selectedPeriod === 'custom') return hiveData;
 
         const now = new Date().getTime();
-        return (now - item.timestamp) <= periodMs;
-    });
+        return hiveData.filter(item => (now - item.timestamp) <= periodMs);
+    }, [hiveData, selectedPeriod]);
 
     const calculateStats = (data, sensorKey) => {
         if (!data || data.length === 0) return { min: 'N/A', max: 'N/A', avg: 'N/A' };
@@ -484,7 +495,8 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
         return { min, max, avg };
     };
 
-    const sensorStats = calculateStats(filteredData, selectedSensor);
+    // Memoize sensorStats
+    const sensorStats = useMemo(() => calculateStats(filteredData, selectedSensor), [filteredData, selectedSensor]);
 
     const calculateHoneyYield = (data) => {
         if (!data || data.length < 2) return { daily: [], total: 'N/A' };
@@ -510,7 +522,8 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
         return { daily: dailyYield, total: parseFloat(totalYield.toFixed(2)) };
     };
 
-    const honeyYieldData = calculateHoneyYield(filteredData);
+    // Memoize honeyYieldData
+    const honeyYieldData = useMemo(() => calculateHoneyYield(filteredData), [filteredData]);
 
     const availableSensors = [
         { key: 'weight', name: 'Weight (kg)', color: '#8884d8' },
@@ -599,6 +612,7 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
                                 <div className="h-80 w-full mb-8">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <LineChart
+                                            key={`${selectedSensor}-${selectedPeriod}`} // Key to force re-mount
                                             data={filteredData}
                                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                                         >
@@ -628,6 +642,7 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
                                         <div className="h-60 w-full">
                                             <ResponsiveContainer width="100%" height="100%">
                                                 <BarChart
+                                                    key={`honey-yield-${selectedPeriod}`} // Key to force re-mount
                                                     data={honeyYieldData.daily}
                                                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                                                 >
@@ -661,7 +676,7 @@ const HiveDetail = ({ hive, onBack, userSettings, onCreateAlert }) => {
 };
 
 // Settings Component
-const Settings = ({ onBack, userSettings, onSaveSettings, hives, onAddHive, onDeleteHive }) => {
+const Settings = ({ onBack, userSettings, onSaveSettings, hives, onAddHive, onDeleteHive, appVersion }) => {
     const [tempSettings, setTempSettings] = useState(userSettings);
     const [newHiveName, setNewHiveName] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -891,6 +906,9 @@ const Settings = ({ onBack, userSettings, onSaveSettings, hives, onAddHive, onDe
                 message={modalMessage}
                 onClose={() => setShowModal(false)}
             />
+            <div className="text-center text-gray-500 text-xs mt-6">
+                App Version: {appVersion}
+            </div>
         </div>
     );
 };
@@ -904,6 +922,9 @@ const App = () => {
     const [hives, setHives] = useState([]);
     const [alerts, setAlerts] = useState([]);
     const [showAlertsModal, setShowAlertsModal] = useState(false);
+
+    // Define the app version here
+    const APP_VERSION = "1.0.2"; // Increment this for new releases
 
     const [userSettings, setUserSettings] = useState({
         enabledFields: {
@@ -1272,6 +1293,7 @@ const App = () => {
                             alerts={alerts}
                             onMarkAlertRead={markAlertRead}
                             onShowAlertsModal={() => setShowAlertsModal(true)}
+                            appVersion={APP_VERSION} // Pass app version
                         />
                         <Modal
                             show={showAlertsModal}
@@ -1329,6 +1351,7 @@ const App = () => {
                         hives={hives}
                         onAddHive={addHive}
                         onDeleteHive={deleteHive}
+                        appVersion={APP_VERSION} // Pass app version
                     />
                 );
             default:
