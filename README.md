@@ -1,6 +1,18 @@
 # 🐝 HeilooHive: Beehive Monitoring Application
 
-**HeilooHive** is a modern web app for real-time monitoring of beehive health and activity. It seamlessly integrates with [ThingSpeak](https://thingspeak.com/) to collect sensor data, providing critical insights to help beekeepers make informed, data-driven decisions.
+**HeilooHive** is a modern web app for real-time monitoring of beehive health and activity. It seamlessly integrates with [ThingSpeak](https://thingspeak.com/) to collect sensor data, providing critical insights for beekeepers.
+
+---
+
+## Table of Contents
+
+- [Core Features](#-core-features)
+- [How to Use on Your Phone](#-how-to-use-the-app-on-your-phone)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Configuration](#-configuration-connecting-to-hive-data)
+- [Usage Workflow](#-usage-workflow)
+- [Our Mission](#-our-mission)
 
 ---
 
@@ -23,7 +35,35 @@
   - **Sensor Statistics**: Min, max, and averages for all metrics  
 - **🚨 Proactive Alert System:** Get notified of sudden changes (e.g., weight loss, temperature spikes).
 - **📱 Responsive Design:** Built with Tailwind CSS for perfect viewing on mobile, tablet, and desktop.
-- **⚙️ Configuration Management:** Easily add, edit, or remove hives in Settings.
+
+---
+
+## 📱 How to Use the App on Your Phone
+
+The Beehive Monitoring App runs entirely in your browser and does not require installation from an app store.
+
+### To use on your phone:
+1. Open your preferred mobile browser (such as Chrome or Safari).
+2. Go to [https://ditalles.github.io/beehive-monitoring-app/](https://ditalles.github.io/beehive-monitoring-app/).
+3. You can use the app directly in your browser.
+
+### (Optional) Add the App to Your Home Screen
+
+If you want quicker access and an app-like experience, you can add the Beehive Monitoring App to your phone’s home screen:
+
+- **On Android (Chrome):**
+  1. Open the app in Chrome.
+  2. Tap the menu (three dots) in the top right.
+  3. Select “Add to Home screen.”
+  4. Follow the prompts to add.
+
+- **On iPhone (Safari):**
+  1. Open the app in Safari.
+  2. Tap the Share icon (square with arrow).
+  3. Select “Add to Home Screen.”
+  4. Follow the prompts to add.
+
+This will create a shortcut icon that launches the app in its own window, just like a native app.
 
 ---
 
@@ -103,17 +143,6 @@
 4. **Alerts:**  
     - Dashboard and modal highlight unread alerts
     - Mark alerts as read after review
-
----
-
-## 🌱 Future Roadmap
-
-- **Long-term Data Storage:** Integrate persistent database (e.g., Firebase Firestore)
-- **Custom Alert Thresholds:** User-defined triggers
-- **Multi-Apiary Management:** Organize and monitor multiple groups
-- **Predictive Analytics:** Advanced models for swarming, disease, and more
-- **User Profiles:** Customize dashboards and notifications
-- **Data Export:** Downloadable PDF or CSV reports
 
 ---
 
