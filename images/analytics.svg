@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f9fafb"/>
+  
+  <!-- Header -->
+  <rect width="1200" height="80" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="60" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#111827">Hive Alpha Analytics</text>
+  <rect x="980" y="25" width="120" height="30" rx="6" fill="#6b7280"/>
+  <text x="1040" y="43" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Back to Dashboard</text>
+  
+  <!-- Data Source Indicator -->
+  <rect x="60" y="100" width="1080" height="40" rx="8" fill="#dcfce7"/>
+  <circle cx="80" cy="120" r="6" fill="#10b981"/>
+  <text x="100" y="125" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#166534">Live ThingSpeak Data</text>
+  <text x="1080" y="125" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="end">847 data points</text>
+  
+  <!-- Navigation Tabs -->
+  <rect x="60" y="160" width="1080" height="60" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Active tab (Overview) -->
+  <rect x="80" y="175" width="250" height="30" rx="8" fill="#2563eb"/>
+  <text x="205" y="193" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">🏠 Overview</text>
+  <text x="205" y="205" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle" opacity="0.75">Health & Risk</text>
+  
+  <!-- Inactive tabs -->
+  <rect x="350" y="175" width="250" height="30" rx="8" fill="#f3f4f6"/>
+  <text x="475" y="193" font-family="Arial, sans-serif" font-size="12" fill="#374151" text-anchor="middle">🍯 Honey Flow</text>
+  <text x="475" y="205" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Production</text>
+  
+  <rect x="620" y="175" width="250" height="30" rx="8" fill="#f3f4f6"/>
+  <text x="745" y="193" font-family="Arial, sans-serif" font-size="12" fill="#374151" text-anchor="middle">📊 Sensors</text>
+  <text x="745" y="205" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Raw Data</text>
+  
+  <rect x="890" y="175" width="250" height="30" rx="8" fill="#f3f4f6"/>
+  <text x="1015" y="193" font-family="Arial, sans-serif" font-size="12" fill="#374151" text-anchor="middle">📈 Trends</text>
+  <text x="1015" y="205" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Long-term</text>
+  
+  <!-- Main Content Area -->
+  <!-- Colony Health Score -->
+  <rect x="60" y="260" width="520" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="80" y="290" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">🏥 Colony Health Score</text>
+  
+  <text x="320" y="350" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#10b981" text-anchor="middle">87</text>
+  <text x="320" y="380" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#059669" text-anchor="middle">Good</text>
+  
+  <text x="80" y="420" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">Health Factors:</text>
+  <circle cx="90" cy="440" r="3" fill="#3b82f6"/>
+  <text x="105" y="445" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Good temperature control</text>
+  <circle cx="90" cy="460" r="3" fill="#3b82f6"/>
+  <text x="105" y="465" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Positive growth trend</text>
+  
+  <!-- Swarm Risk Assessment -->
+  <rect x="620" y="260" width="520" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="640" y="290" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">🚨 Swarm Risk Assessment</text>
+  
+  <text x="880" y="350" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#10b981" text-anchor="middle">Low</text>
+  <text x="880" y="380" font-family="Arial, sans-serif" font-size="16" fill="#6b7280" text-anchor="middle">Risk Score: 15/100</text>
+  
+  <text x="640" y="420" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">No Risk Indicators</text>
+  <text x="640" y="445" font-family="Arial, sans-serif" font-size="12" fill="#059669">Colony appears stable and healthy</text>
+  
+  <!-- Quick Statistics -->
+  <rect x="60" y="530" width="1080" height="200" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="80" y="560" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">📊 Quick Statistics</text>
+  
+  <!-- Stat cards -->
+  <rect x="80" y="580" width="240" height="120" rx="8" fill="#dbeafe"/>
+  <text x="200" y="620" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#1d4ed8" text-anchor="middle">4.2</text>
+  <text x="200" y="640" font-family="Arial, sans-serif" font-size="12" fill="#1e40af" text-anchor="middle">Total Gain (kg)</text>
+  
+  <rect x="340" y="580" width="240" height="120" rx="8" fill="#dcfce7"/>
+  <text x="460" y="620" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#15803d" text-anchor="middle">1.8</text>
+  <text x="460" y="640" font-family="Arial, sans-serif" font-size="12" fill="#166534" text-anchor="middle">Avg Weekly (kg)</text>
+  
+  <rect x="600" y="580" width="240" height="120" rx="8" fill="#fae8ff"/>
+  <text x="720" y="620" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#a21caf" text-anchor="middle">847</text>
+  <text x="720" y="640" font-family="Arial, sans-serif" font-size="12" fill="#a21caf" text-anchor="middle">Data Points</text>
+  
+  <rect x="860" y="580" width="240" height="120" rx="8" fill="#fed7aa"/>
+  <text x="980" y="620" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#c2410c" text-anchor="middle">12</text>
+  <text x="980" y="640" font-family="Arial, sans-serif" font-size="12" fill="#c2410c" text-anchor="middle">Tracking Periods</text>
+</svg>

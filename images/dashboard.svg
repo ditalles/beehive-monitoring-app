@@ -1,0 +1,80 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f9fafb"/>
+  
+  <!-- Header -->
+  <rect width="1200" height="80" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="60" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#111827">HeilooHive Dashboard</text>
+  <circle cx="1050" cy="40" r="8" fill="#10b981"/>
+  <text x="1070" y="45" font-family="Arial, sans-serif" font-size="14" fill="#059669">Live Data</text>
+  
+  <!-- Navigation buttons -->
+  <rect x="950" y="25" width="80" height="30" rx="6" fill="#eab308"/>
+  <text x="985" y="43" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Alerts</text>
+  
+  <!-- Main content area -->
+  <rect x="60" y="120" width="1080" height="640" fill="#f9fafb"/>
+  
+  <!-- Title -->
+  <text x="60" y="160" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#111827">Your Hives</text>
+  
+  <!-- Hive Cards -->
+  <!-- Hive Alpha -->
+  <rect x="60" y="180" width="340" height="280" rx="12" fill="#ffffff" stroke="#d1fae5" stroke-width="2"/>
+  <rect x="280" y="195" width="60" height="20" rx="10" fill="#dcfce7"/>
+  <text x="310" y="207" font-family="Arial, sans-serif" font-size="10" fill="#166534" text-anchor="middle">ACTIVE</text>
+  
+  <text x="80" y="220" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">Hive Alpha</text>
+  
+  <text x="80" y="250" font-family="Arial, sans-serif" font-size="12" fill="#374151">Weight: 35.4 kg</text>
+  <text x="80" y="270" font-family="Arial, sans-serif" font-size="12" fill="#374151">Brood Temp: 34.2 °C</text>
+  <text x="80" y="290" font-family="Arial, sans-serif" font-size="12" fill="#374151">Inside Temp: 29.8 °C</text>
+  <text x="80" y="310" font-family="Arial, sans-serif" font-size="12" fill="#374151">Battery: 3.7 V</text>
+  <text x="80" y="330" font-family="Arial, sans-serif" font-size="12" fill="#374151">Humidity: 72 %</text>
+  
+  <rect x="80" y="400" width="300" height="40" rx="8" fill="#2563eb"/>
+  <text x="230" y="423" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">View Advanced Analytics</text>
+  
+  <!-- Hive Beta -->
+  <rect x="430" y="180" width="340" height="280" rx="12" fill="#ffffff" stroke="#fecaca" stroke-width="2"/>
+  <rect x="650" y="195" width="60" height="20" rx="10" fill="#fecaca"/>
+  <text x="680" y="207" font-family="Arial, sans-serif" font-size="10" fill="#dc2626" text-anchor="middle">ALERT</text>
+  
+  <text x="450" y="220" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">Hive Beta</text>
+  
+  <!-- Alert icon -->
+  <circle cx="580" cy="215" r="8" fill="#ef4444"/>
+  <text x="580" y="220" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">!</text>
+  
+  <text x="450" y="250" font-family="Arial, sans-serif" font-size="12" fill="#374151">Weight: 28.1 kg</text>
+  <text x="450" y="270" font-family="Arial, sans-serif" font-size="12" fill="#374151">Brood Temp: 38.5 °C</text>
+  <text x="450" y="290" font-family="Arial, sans-serif" font-size="12" fill="#374151">Inside Temp: 35.2 °C</text>
+  <text x="450" y="310" font-family="Arial, sans-serif" font-size="12" fill="#374151">Battery: 3.2 V</text>
+  <text x="450" y="330" font-family="Arial, sans-serif" font-size="12" fill="#374151">Humidity: 85 %</text>
+  
+  <rect x="450" y="400" width="300" height="40" rx="8" fill="#2563eb"/>
+  <text x="600" y="423" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">View Advanced Analytics</text>
+  
+  <!-- Hive Gamma -->
+  <rect x="800" y="180" width="340" height="280" rx="12" fill="#ffffff" stroke="#d1fae5" stroke-width="2"/>
+  <rect x="1020" y="195" width="60" height="20" rx="10" fill="#dcfce7"/>
+  <text x="1050" y="207" font-family="Arial, sans-serif" font-size="10" fill="#166534" text-anchor="middle">ACTIVE</text>
+  
+  <text x="820" y="220" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#111827">Hive Gamma</text>
+  
+  <text x="820" y="250" font-family="Arial, sans-serif" font-size="12" fill="#374151">Weight: 42.3 kg</text>
+  <text x="820" y="270" font-family="Arial, sans-serif" font-size="12" fill="#374151">Brood Temp: 35.1 °C</text>
+  <text x="820" y="290" font-family="Arial, sans-serif" font-size="12" fill="#374151">Inside Temp: 30.5 °C</text>
+  <text x="820" y="310" font-family="Arial, sans-serif" font-size="12" fill="#374151">Battery: 3.9 V</text>
+  <text x="820" y="330" font-family="Arial, sans-serif" font-size="12" fill="#374151">Humidity: 68 %</text>
+  
+  <rect x="820" y="400" width="300" height="40" rx="8" fill="#2563eb"/>
+  <text x="970" y="423" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">View Advanced Analytics</text>
+  
+  <!-- Settings Button -->
+  <circle cx="1080" cy="720" r="35" fill="#7c3aed"/>
+  <text x="1080" y="725" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">Settings</text>
+  
+  <!-- Footer -->
+  <text x="600" y="740" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">App Version: 1.0.6 | Auto-refresh: 5 minutes</text>
+</svg>

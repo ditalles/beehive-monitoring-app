@@ -1,0 +1,62 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f3f4f6"/>
+  
+  <!-- Login Card -->
+  <rect x="350" y="100" width="500" height="600" rx="24" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="drop-shadow(0 20px 25px rgb(0 0 0 / 0.15))"/>
+  
+  <!-- Title -->
+  <text x="600" y="160" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#111827" text-anchor="middle">HeilooHive Login</text>
+  
+  <!-- Setup Guide Box -->
+  <rect x="380" y="190" width="440" height="120" rx="8" fill="#dbeafe"/>
+  <text x="400" y="215" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1e40af">📡 ThingSpeak Setup Guide:</text>
+  
+  <text x="400" y="235" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">1. Create a ThingSpeak channel with 8 fields</text>
+  <text x="400" y="250" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">2. Configure fields: Weight, Brood Temp, Inside Temp, Outside Temp...</text>
+  <text x="400" y="265" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">3. Get your Channel ID and Read API Key from channel settings</text>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="12" fill="#1e40af">4. Use "Test Connection" to verify your setup</text>
+  
+  <!-- Username Field -->
+  <text x="380" y="340" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">Username:</text>
+  <rect x="380" y="350" width="440" height="40" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+  <text x="395" y="375" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">Enter your username</text>
+  
+  <!-- Channel ID Field -->
+  <text x="380" y="420" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">ThingSpeak Channel ID: <tspan fill="#ef4444">*</tspan></text>
+  <rect x="380" y="430" width="440" height="40" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+  <text x="395" y="455" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">e.g., 1234567</text>
+  
+  <!-- API Key Field -->
+  <text x="380" y="500" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#374151">ThingSpeak Read API Key: <tspan fill="#ef4444">*</tspan></text>
+  <rect x="380" y="510" width="440" height="40" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+  <text x="395" y="535" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">Enter your Read API Key</text>
+  <text x="395" y="560" font-family="Arial, sans-serif" font-size="10" fill="#6b7280">Find this in your ThingSpeak channel's API Keys tab</text>
+  
+  <!-- Test Connection Button -->
+  <rect x="380" y="580" width="440" height="40" rx="8" fill="#2563eb"/>
+  <text x="600" y="603" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">📡 Test ThingSpeak Connection</text>
+  
+  <!-- Remember Me Checkbox -->
+  <rect x="380" y="635" width="15" height="15" rx="3" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+  <path d="M385 642 L390 647 L395 637" stroke="#2563eb" stroke-width="2" fill="none"/>
+  <text x="405" y="647" font-family="Arial, sans-serif" font-size="12" fill="#374151">Remember My Credentials</text>
+  
+  <!-- Login Button -->
+  <rect x="380" y="665" width="440" height="45" rx="8" fill="#059669"/>
+  <text x="600" y="692" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">🚀 Login to HeilooHive</text>
+  
+  <!-- Demo Mode Link -->
+  <text x="600" y="730" font-family="Arial, sans-serif" font-size="12" fill="#2563eb" text-anchor="middle" text-decoration="underline">Try Demo Mode (Simulated Data)</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="150" cy="200" r="40" fill="#fbbf24" opacity="0.3"/>
+  <circle cx="1050" cy="300" r="30" fill="#10b981" opacity="0.3"/>
+  <circle cx="100" cy="600" r="25" fill="#8b5cf6" opacity="0.3"/>
+  <circle cx="1100" cy="700" r="35" fill="#ef4444" opacity="0.3"/>
+  
+  <!-- Bee Icons -->
+  <text x="120" y="150" font-family="Arial, sans-serif" font-size="30">🐝</text>
+  <text x="1080" y="150" font-family="Arial, sans-serif" font-size="25">🐝</text>
+  <text x="80" y="750" font-family="Arial, sans-serif" font-size="20">🐝</text>
+</svg>
